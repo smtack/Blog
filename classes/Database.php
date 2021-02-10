@@ -4,6 +4,7 @@ class Database {
   private $dbname = "blog";
   private $dbuser = "root";
   private $dbpass = "";
+
   public $db;
 
   public function DB() {
@@ -18,4 +19,3 @@ class Database {
     return $this->db;
   }
 }
-?>

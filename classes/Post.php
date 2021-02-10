@@ -76,21 +76,17 @@ class Post {
   }
 
   function update() {
-    $query = "UPDATE " . $this->table_name . " SET title = :title, content = :content, name = :name, username = :username WHERE id = :id";
+    $query = "UPDATE " . $this->table_name . " SET title = :title, content = :content WHERE id = :id";
 
     $stmt = $this->db->prepare($query);
 
     $this->title = htmlspecialchars(strip_tags($this->title));
     $this->content = htmlspecialchars(strip_tags($this->content));
-    $this->name = htmlspecialchars(strip_tags($this->name));
-    $this->username = htmlspecialchars(strip_tags($this->username));
     $this->id = htmlspecialchars(strip_tags($this->id));
 
     if ($stmt->execute([
       ":title" => $this->title,
       ":content" => $this->content,
-      ":name" => $this->name,
-      ":username" => $this->username,
       ":id" => $this->id
     ])) {
       return true;
@@ -129,4 +125,3 @@ class Post {
     return $stmt;
   }
 }
-?>

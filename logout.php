@@ -1,7 +1,6 @@
 <?php
-include_once "php/core.php";
+include_once "src/init.php";
 
 session_destroy();
 
-header("Location: index.php");
-?>
+header("Location: index");

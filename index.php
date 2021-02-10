@@ -1,9 +1,7 @@
 <?php
-if (isset($_POST['signup'])) {
-  include_once "php/Database.php";
-  include_once "php/User.php";
-  include_once "php/core.php";
+include_once "src/init.php";
 
+if (isset($_POST['signup'])) {
   $database = new Database();
   $newDB = $database->DB();
 
@@ -20,17 +18,13 @@ if (isset($_POST['signup'])) {
     $_SESSION['email'] = htmlspecialchars($user->email);
     $_SESSION['loggedIn'] = 1;
 
-    header("Location: home.php");
+    header("Location: home");
   } else {
     echo "Unable to sign up.";
   }
 }
 
 if (isset($_POST['login'])) {
-  include_once "php/Database.php";
-  include_once "php/User.php";
-  include_once "php/core.php";
-
   $database = new Database();
   $newDB = $database->DB();
 
@@ -46,24 +40,15 @@ if (isset($_POST['login'])) {
     $_SESSION['email'] = htmlspecialchars($user->email);
     $_SESSION['loggedIn'] = 1;
 
-    header("Location: home.php");
+    header("Location: home");
   } else {
     echo "Failed to log in";
   }
 }
 ?>
 
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<?php require_once "views/includes/header.php"; ?>
 
-  <link href="css/main.css" rel="stylesheet">
-
-  <title>Blog</title>
-</head>
-<body>
   <div class="section-left">
     <h1 id="logo">Blog</h1>
   </div>
