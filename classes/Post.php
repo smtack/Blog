@@ -1,34 +1,34 @@
 <?php
 class Post {
   private $db;
-  private $table_name = "posts";
 
   public $id;
-  public $title;
-  public $content;
-  public $datetime;
   public $name;
+  public $username;
+  public $title;
+  public $image;
+  public $content;
 
   public function __construct($newDB) {
     $this->db = $newDB;
   }
 
-  function create() {
-    $query = "INSERT INTO " . $this->table_name . "(title, content, name, username, email) VALUES (:title, :content, :name, :username, :email)";
-    $stmt = $this->db->prepare($query);
+  function createPost() {
+    $sql = "INSERT INTO posts (name, username, title, image, content) VALUES (:name, :username, :title, :image, :content)";
+    $stmt = $this->db->prepare($sql);
 
-    $this->title = htmlspecialchars(strip_tags($this->title));
-    $this->content = htmlspecialchars(strip_tags($this->content));
-    $this->name = htmlspecialchars(strip_tags($_SESSION['name']));
-    $this->username = htmlspecialchars(strip_tags($_SESSION['username']));
-    $this->email = htmlspecialchars(strip_tags($_SESSION['email']));
+    $this->name = $_SESSION['name'];
+    $this->username = $_SESSION['username'];
+    $this->title = htmlentities($this->title);
+    $this->image = $this->image;
+    $this->content = htmlentities($this->content);
 
-    if ($stmt->execute([
-      ":title" => $this->title,
-      ":content" => $this->content,
-      ":name" => $this->name,
-      ":username" => $this->username,
-      ":email" => $this->email
+    if($stmt->execute([
+      ':name' => $this->name,
+      ':username' => $this->username,
+      ':title' => $this->title,
+      ':image' => $this->image,
+      ':content' => $this->content
     ])) {
       return true;
     } else {
@@ -36,92 +36,49 @@ class Post {
     }
   }
 
-  function read() {
-    $query = "SELECT * FROM " . $this->table_name . " WHERE email = :email ORDER BY id DESC";
+  function readPosts() {
+    $sql = "SELECT * FROM posts WHERE username = :username ORDER BY id DESC";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute([':username' => $this->username]);
 
-    $stmt = $this->db->prepare($query);
+    return $stmt;
+  }
+
+  function readSinglePost() {
+    $sql = "SELECT * FROM posts WHERE id = :id";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute([':id' => $this->id]);
+
+    return $stmt;
+  }
+
+  function updatePost() {
+    $sql = "UPDATE posts SET title = :title, image = :image, content = :content WHERE id = :id";
+    $stmt = $this->db->prepare($sql);
+
+    $this->id = $this->id;
+    $this->title = htmlentities($this->title);
+    $this->image = $this->image;
+    $this->content = htmlentities($this->content);
+
     $stmt->execute([
-      ':email' => $_SESSION['email']
+      ':id' => $this->id,
+      ':title' => $this->title,
+      ':image' => $this->image,
+      ':content' => $this->content
     ]);
 
     return $stmt;
   }
 
-  function readOne() {
-    $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id LIMIT 0,1";
+  function deletePost() {
+    $sql = "DELETE FROM posts WHERE id = :id";
+    $stmt = $this->db->prepare($sql);
 
-    $stmt = $this->db->prepare($query);
-    $stmt->execute([
-      ":id" => $this->id
-    ]);
-
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    $this->title = $row['title'];
-    $this->content = $row['content'];
-    $this->name = $row['name'];
-    $this->username = $row['username'];
-    $this->datetime = $row['datetime'];
-  }
-
-  function readUsersPosts() {
-    $query = "SELECT * FROM " . $this->table_name . " WHERE username = :username ORDER BY id DESC";
-
-    $stmt = $this->db->prepare($query);
-    $stmt->execute([
-      ':username' => $this->username
-    ]);
-
-    return $stmt;
-  }
-
-  function update() {
-    $query = "UPDATE " . $this->table_name . " SET title = :title, content = :content WHERE id = :id";
-
-    $stmt = $this->db->prepare($query);
-
-    $this->title = htmlspecialchars(strip_tags($this->title));
-    $this->content = htmlspecialchars(strip_tags($this->content));
-    $this->id = htmlspecialchars(strip_tags($this->id));
-
-    if ($stmt->execute([
-      ":title" => $this->title,
-      ":content" => $this->content,
-      ":id" => $this->id
-    ])) {
+    if($stmt->execute([':id' => $this->id])) {
       return true;
-    }
-
-    return false;
-  }
-
-  function delete() {
-    $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-
-    $stmt = $this->db->prepare($query);
-
-    if ($stmt->execute([
-      ":id" => $this->id
-      ])) {
-        return true;
     } else {
       return false;
     }
-  }
-
-  function search($keywords) {
-    $query = "SELECT * FROM " . $this->table_name . " WHERE title LIKE ? OR content LIKE ? ORDER BY id DESC";
-
-    $stmt = $this->db->prepare($query);
-
-    $keywords = htmlspecialchars(strip_tags($keywords));
-    $keywords = "%{$keywords}%";
-
-    $stmt->bindParam(1, $keywords);
-    $stmt->bindParam(2, $keywords);
-
-    $stmt->execute();
-
-    return $stmt;
   }
 }

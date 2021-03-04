@@ -1,30 +1,21 @@
-var signupForm = document.querySelector('#signup');
-var loginForm = document.querySelector('#login');
-var signupButton = document.querySelector('#signupButton');
-var loginButton = document.querySelector('#loginButton');
+const searchButton = document.querySelector('.search-button');
+const search = document.querySelector('.search');
 
-window.onload = function() {
-  signupButton.style.backgroundColor = "#000000";
-  signupButton.style.color = "#ffffff";
-  loginButton.style.backgroundColor = "#ffffff";
-  loginButton.style.color = "#000000";
-  loginForm.style.display = "none";
-}
+const menuButton = document.querySelector('.menu-button');
+const menu = document.querySelector('.menu');
 
-signupButton.addEventListener("click", function() {
-  signupButton.style.backgroundColor = "#000000";
-  signupButton.style.color = "#ffffff";
-  loginButton.style.backgroundColor = "#ffffff";
-  loginButton.style.color = "#000000";
-  loginForm.style.display = "none";
-  signupForm.style.display = "block";
+searchButton.addEventListener("click", () => {
+  if(search.style.display === "none") {
+    search.style.display = "block";
+  } else {
+    search.style.display = "none";
+  }
 });
 
-loginButton.addEventListener("click", function() {
-  signupButton.style.backgroundColor = "#ffffff";
-  signupButton.style.color = "#000000";
-  loginButton.style.backgroundColor = "#000000";
-  loginButton.style.color = "#ffffff";
-  loginForm.style.display = "block";
-  signupForm.style.display = "none";
+menuButton.addEventListener("click", () => {
+  if(menu.style.display == "none") {
+    menu.style.display = "block";
+  } else {
+    menu.style.display = "none";
+  }
 });

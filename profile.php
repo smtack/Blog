@@ -1,45 +1,22 @@
 <?php
-include_once "src/init.php";
+require_once "public/init.php";
 
-$username = isset($_GET['username']) ? $_GET['username'] : die('No user');
-
-$database = new Database();
-$newDB = $database->DB();
-
+$user = new User($newDB);
 $post = new Post($newDB);
-$post->username = $username;
 
-$stmt = $post->readUsersPosts();
-?>
+$id = isset($_GET['id']) ? $_GET['id'] : header("Location: home.php");
 
-<?php require_once "views/includes/header.php"; ?>
+$get_user_data = $user->getUserProfile();
+$user_data = $get_user_data->fetch();
 
-<?php require_once "views/includes/navbar.php"; ?>
+if(!$user_data) {
+  header("Location: " . BASE_URL . "/home.php");
+}
 
-<div class="content">
-  <div class="posts">
-    <?php
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      extract($row);
+$post->username = $user_data['username'];
+$get_posts = $post->readPosts();
+$posts = $get_posts->fetchAll();
 
-      $content = substr($content, 0, 140);
+$page_title = "Blog - " . $user_data['name'] . "'s Profile";
 
-      echo("
-        <div class='post'>
-          <h2 class='title'><a href='post?id={$id}'>{$title}</a></h2>
-          <p class='content'>{$content}</p>
-          <p class='datetime'>{$datetime}</p>
-          <p class='name'>{$name}</p>
-      ");
-
-      if ($_SESSION['loggedIn'] == true && $_SESSION['username'] == $_GET['username']) {
-        echo("<p class='options'><a href='update?id={$id}'>Update</a><a href='delete.php?id={$id}'>Delete</a></p>");
-      }
-
-      echo ("</div>");
-    }
-    ?>
-  </div>
-</div>
-
-<?php require_once "views/includes/footer.php"; ?>
+require VIEW_ROOT . "/profile.php";

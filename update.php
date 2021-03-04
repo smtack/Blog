@@ -1,52 +1,46 @@
 <?php
-include_once "src/init.php";
+require_once "public/init.php";
 
-$id = isset($_GET['id']) ? $_GET['id'] : die('Missing ID');
+if(!$_SESSION['logged_in']) {
+  header("Location: " . BASE_URL . "/index.php");
+}
 
-$database = new Database();
-$newDB = $database->DB();
+$page_title = "Blog - Update Profile";
 
-$post = new Post($newDB);
+$user = new User($newDB);
 
-$post->id = $id;
+$id = isset($_GET['id']) ? $_GET['id'] : die("No ID");
 
-if ($_POST) {
-  $post->title = $_POST['title'];
-  $post->content = $_POST['content'];
-  $post->name = $_POST['name'];
+$get_user_data = $user->getSingleUser();
+$user_data = $get_user_data->fetch();
 
-  if ($post->update()) {
-    header("Location: home");
+$user->id = $id;
+
+if(isset($_POST['update'])) {
+  $user->name = $_POST['name'];
+  $user->username = $_POST['username'];
+  $user->email = $_POST['email'];
+
+  if($user->updateUser()) {
+    header("Location: " . BASE_URL . "/home.php");
   } else {
-    echo "Unable to update post";
+    echo "Unable to update profile.";
   }
 }
 
-$post->readOne();
-?>
+if(isset($_POST['change_password'])) {
+  $confirm_password = $_POST['confirm_password'];
+  $user->password = $_POST['new_password'];
 
-<?php require_once "views/includes/header.php"; ?>
+  if(password_verify($confirm_password, $user_data['password'])) {
+    if($user->changePassword()) {
+      header("Location: home.php");
+    } else {
+      echo "Could not change password.";
+    }
+  } else {
+    echo("<p>Enter your current password correctly</p>");
+  }
+}
 
-<?php require_once "views/includes/navbar.php"; ?>
-
-<div class="content">
-  <div class="submit">
-    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . "?id={$id}"); ?>" method="post">
-      <ul>
-        <li>
-          <label for="title">Title</label>
-          <input type="text" name="title" value="<?php echo $post->title; ?>"></input>
-        </li>
-        <li>
-          <label for="content">Content</label>
-          <textarea name="content"><?php echo $post->content; ?></textarea>
-        </li>
-        <li>
-          <input type="submit" name="submit" value="Post">
-        </li>
-      </ul>
-    </form>
-  </div>
-</div>
-
-<?php require_once "views/includes/footer.php"; ?>
+require VIEW_ROOT . '/update.php';

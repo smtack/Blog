@@ -1,17 +1,14 @@
 <?php
-include_once "src/init.php";
+require_once "public/init.php";
 
-$id = isset($_GET['id']) ? $_GET['id'] : die('Missing ID');
+$id = isset($_GET['id']) ? $_GET['id'] : die("No ID");
 
-$database = new Database();
-$newDB = $database->DB();
+$user = new User($newDB);
 
-$post = new Post($newDB);
+$user->id = $id;
 
-$post->id = $id;
-
-if ($post->delete()) {
-  header("Location: home");
+if($user->deleteUser()) {
+  header("Location: " . BASE_URL . "/index.php");
 } else {
-  echo "Unable to delete post";
+  echo "Unable to delete user.";
 }
