@@ -1,7 +1,7 @@
 <?php
 require_once "public/init.php";
 
-$id = isset($_GET['id']) ? $_GET['id'] : header("Location: home.php");
+$id = isset($_GET['id']) ? $_GET['id'] : header("Location: home");
 
 $post = new Post($newDB);
 
@@ -25,7 +25,7 @@ if(isset($_POST['update_post']) && !empty($_FILES['image']['name'])) {
       if(!$post->updatePost()) {
         echo "Unable to update post.";
       } else {
-        header("Location: home.php");
+        header("Location: home");
       }
     }
   }
@@ -36,7 +36,7 @@ if(isset($_POST['update_post']) && !empty($_FILES['image']['name'])) {
   if(!$post->updatePost()) {
     echo "Unable to update post.";
   } else {
-    header("Location: home.php");
+    header("Location: home");
   }
 }
 

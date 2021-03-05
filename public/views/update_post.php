@@ -4,7 +4,7 @@
   <?php require_once "includes/navbar.php"; ?>
 
   <div class="content">
-    <div class="submit">
+    <div class="submit-update">
       <form enctype="multipart/form-data" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
         <div class="form-group">
           <input type="text" name="title" value="<?php echo $post_data['title']; ?>">

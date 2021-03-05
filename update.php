@@ -2,7 +2,7 @@
 require_once "public/init.php";
 
 if(!$_SESSION['logged_in']) {
-  header("Location: " . BASE_URL . "/index.php");
+  header("Location: " . BASE_URL . "/index");
 }
 
 $page_title = "Blog - Update Profile";
@@ -22,7 +22,7 @@ if(isset($_POST['update'])) {
   $user->email = $_POST['email'];
 
   if($user->updateUser()) {
-    header("Location: " . BASE_URL . "/home.php");
+    header("Location: " . BASE_URL . "/home");
   } else {
     echo "Unable to update profile.";
   }
@@ -34,7 +34,7 @@ if(isset($_POST['change_password'])) {
 
   if(password_verify($confirm_password, $user_data['password'])) {
     if($user->changePassword()) {
-      header("Location: home.php");
+      header("Location: " . BASE_URL . "/home");
     } else {
       echo "Could not change password.";
     }

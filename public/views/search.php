@@ -7,7 +7,7 @@
     <div class="search-results">
       <?php foreach($results as $single_user): ?>
         <div class="post">
-          <p><a href="<?php echo BASE_URL; ?>/profile.php?id=<?php echo $single_user['id']; ?>"><?php echo $single_user['name']; ?></a></p>
+          <p><a href="<?php echo BASE_URL; ?>/profile?id=<?php echo $single_user['id']; ?>"><?php echo $single_user['name']; ?></a></p>
           <span><?php echo $single_user['username']; ?></span>
         </div>
       <?php endforeach; ?>

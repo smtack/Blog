@@ -23,7 +23,7 @@ if(isset($_POST['signup'])) {
         $_SESSION['email'] = $user->email;
         $_SESSION['logged_in'] = true;
 
-        header("Location: " . BASE_URL . "/home.php");
+        header("Location: " . BASE_URL . "/home");
       } else {
         echo "Unable to sign up.";
       }

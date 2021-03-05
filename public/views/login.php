@@ -15,7 +15,7 @@
       <input type="submit" name="login" value="Log In">
     </div>
     <div class="form-group">
-      <p>Don't have an account? <a href="<?php echo BASE_URL; ?>/index.php">Sign Up</a></p>
+      <p>Don't have an account? <a href="<?php echo BASE_URL; ?>">Sign Up</a></p>
     </div>
   </div>
 </div>

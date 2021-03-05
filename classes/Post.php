@@ -28,7 +28,7 @@ class Post {
       ':username' => $this->username,
       ':title' => $this->title,
       ':image' => $this->image,
-      ':content' => $this->content
+      ':content' => $this->content,
     ])) {
       return true;
     } else {

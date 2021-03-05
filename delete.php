@@ -8,7 +8,7 @@ $user = new User($newDB);
 $user->id = $id;
 
 if($user->deleteUser()) {
-  header("Location: " . BASE_URL . "/index.php");
+  header("Location: " . BASE_URL . "/index");
 } else {
   echo "Unable to delete user.";
 }

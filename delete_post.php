@@ -19,7 +19,7 @@ if($post->deletePost()) {
     unlink($file_name);
   }
   
-  header("Location: " . BASE_URL . "/home.php");
+  header("Location: " . BASE_URL . "/home");
 } else {
   echo "Unable to delete post.";
 }

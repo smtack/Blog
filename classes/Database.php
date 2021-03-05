@@ -23,7 +23,7 @@ class Database {
     try {
       $this->db = new PDO($this->dsn, $this->dbuser, $this->dbpass, $this->opt);
     } catch(PDOException $e) {
-      echo "Could not connect to the database. " . $e->getMessage();
+      die($e->getMessage());
     }
 
     return $this->db;

@@ -39,7 +39,7 @@
   </div>
   <div class="form">
     <div class="form-group">
-      <p><a href="<?php echo BASE_URL; ?>/delete.php?id=<?php echo $user_data['id']; ?>">Delete account</a></p>
+      <p><a href="<?php echo BASE_URL; ?>/delete?id=<?php echo $user_data['id']; ?>">Delete account</a></p>
     </div>
   </div>
 </div>

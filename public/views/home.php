@@ -6,7 +6,7 @@
   <div class="content">
     <div class="submit">
       <div class="info">
-        <span>Welcome <a href="<?php echo BASE_URL; ?>/profile.php?id=<?php echo $user_data['id']; ?>"><?php echo $user_data['name']; ?></a></span>
+        <span>Welcome <a href="<?php echo BASE_URL; ?>/profile?id=<?php echo $user_data['id']; ?>"><?php echo $user_data['name']; ?></a></span>
       </div>
 
       <form enctype="multipart/form-data" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
@@ -26,16 +26,24 @@
     </div>
 
     <div class="posts">
+      <?php if(!$posts): ?>
+        <p>You haven't made a post yet</p>
+      <?php endif; ?>
+
       <?php foreach($posts as $single_post): ?>
         <div class="post">
-          <img src="<?php echo BASE_URL; ?>/uploads/<?php echo $single_post['image']; ?>" alt="<?php echo $single_post['image']; ?>">
-          <h3><a href="<?php echo BASE_URL; ?>/post.php?id=<?php echo $single_post['id']; ?>"><?php echo $single_post['title']; ?></a></h3>
-          <p><?php echo substr($single_post['content'], 0, 150); ?><a href="<?php echo BASE_URL; ?>/post.php?id=<?php echo $single_post['id']; ?>">&nbsp;Read more</a></p>
+          <h3><a href="<?php echo BASE_URL; ?>/post?id=<?php echo $single_post['id']; ?>"><?php echo $single_post['title']; ?></a></h3>
           <span><?php echo $single_post['name']; ?></span>
           <span><?php echo $single_post['datetime']; ?></span>
+
+          <?php if($single_post['image']): ?>
+            <img src="<?php echo BASE_URL; ?>/uploads/<?php echo $single_post['image']; ?>" alt="<?php echo $single_post['image']; ?>">
+          <?php endif; ?>
+          
+          <p><?php echo substr($single_post['content'], 0, 150); ?><a href="<?php echo BASE_URL; ?>/post?id=<?php echo $single_post['id']; ?>">&nbsp;Read more</a></p>
           <p>
-            <a href="<?php echo BASE_URL; ?>/update_post.php?id=<?php echo $single_post['id']; ?>">Update</a>
-            <a href="<?php echo BASE_URL; ?>/delete_post.php?id=<?php echo $single_post['id']; ?>">Delete</a>
+            <a href="<?php echo BASE_URL; ?>/update_post?id=<?php echo $single_post['id']; ?>">Update</a>
+            <a href="<?php echo BASE_URL; ?>/delete_post?id=<?php echo $single_post['id']; ?>">Delete</a>
           </p>
         </div>
       <?php endforeach; ?>

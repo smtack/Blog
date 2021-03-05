@@ -16,7 +16,7 @@ if(isset($_POST['login'])) {
     $_SESSION['email'] = $user->email;
     $_SESSION['logged_in'] = true;
 
-    header("Location: " . BASE_URL . "/home.php");
+    header("Location: " . BASE_URL . "/home");
   } else {
     echo "Username or Password Incorrect";
   }
