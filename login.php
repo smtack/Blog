@@ -3,6 +3,10 @@ require_once "public/init.php";
 
 $page_title = "Blog - Log In";
 
+if($_SESSION) {
+  header("Location: " . BASE_URL . "/home");
+}
+
 if(isset($_POST['login'])) {
   $user = new User($newDB);
 
@@ -18,7 +22,7 @@ if(isset($_POST['login'])) {
 
     header("Location: " . BASE_URL . "/home");
   } else {
-    echo "Username or Password Incorrect";
+    $error = "Username or Password Incorrect";
   }
 }
 

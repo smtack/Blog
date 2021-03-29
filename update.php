@@ -9,12 +9,16 @@ $page_title = "Blog - Update Profile";
 
 $user = new User($newDB);
 
-$id = isset($_GET['id']) ? $_GET['id'] : die("No ID");
+$id = isset($_GET['id']) ? $_GET['id'] : header("Location: " . BASE_URL . "/home");
 
 $get_user_data = $user->getSingleUser();
 $user_data = $get_user_data->fetch();
 
 $user->id = $id;
+
+if($id != $user_data['id']) {
+  header("Location: " . BASE_URL . "/home");
+}
 
 if(isset($_POST['update'])) {
   $user->name = $_POST['name'];

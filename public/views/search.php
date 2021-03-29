@@ -5,6 +5,10 @@
 
   <div class="content">
     <div class="search-results">
+      <?php if(!$results): ?>
+        <h3 class="no-results">No results</h3>
+      <?php endif; ?>
+      
       <?php foreach($results as $single_user): ?>
         <div class="post">
           <p><a href="<?php echo BASE_URL; ?>/profile?id=<?php echo $single_user['id']; ?>"><?php echo $single_user['name']; ?></a></p>

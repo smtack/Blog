@@ -13,6 +13,7 @@
 
   <div class="menu">
     <ul>
+      <li><a href="<?php echo BASE_URL; ?>/create">Create Post</a></li>
       <li><a href="<?php echo BASE_URL; ?>/update?id=<?php echo $user_data['id']; ?>">Update profile</a></li>
       <li><a href="<?php echo BASE_URL; ?>/logout">Log out</a></li>
     </ul>

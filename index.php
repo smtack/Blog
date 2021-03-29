@@ -3,12 +3,16 @@ require_once 'public/init.php';
 
 $page_title = "Blog - Sign Up";
 
+if($_SESSION) {
+  header("Location: " . BASE_URL . "/home");
+}
+
 if(isset($_POST['signup'])) {
   if(empty($_POST['name']) || empty($_POST['username']) || empty($_POST['email']) || empty($_POST['password']) || empty($_POST['confirm_password'])) {
-    echo("<p>Please fill all fields</p>");
+    $error = "Please fill all fields";
   } else {
     if($_POST['password'] != $_POST['confirm_password']) {
-      echo("<p>Passwords do not match</p>");
+      $error = "Passwords do not match";
     } else {
       $user = new User($newDB);
 
@@ -25,7 +29,7 @@ if(isset($_POST['signup'])) {
 
         header("Location: " . BASE_URL . "/home");
       } else {
-        echo "Unable to sign up.";
+        $error = "Unable to sign up";
       }
     }
   }
