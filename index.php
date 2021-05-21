@@ -1,5 +1,5 @@
 <?php
-require_once 'public/init.php';
+require_once "src/init.php";
 
 $page_title = "Blog - Sign Up";
 
@@ -14,17 +14,11 @@ if(isset($_POST['signup'])) {
     if($_POST['password'] != $_POST['confirm_password']) {
       $error = "Passwords do not match";
     } else {
-      $user = new User($newDB);
-
-      $user->name = $_POST['name'];
-      $user->username = $_POST['username'];
-      $user->email = $_POST['email'];
-      $user->password = $_POST['password'];
+      $user = new User($db);
 
       if($user->signUp()) {
-        $_SESSION['name'] = $user->name;
-        $_SESSION['username'] = $user->username;
-        $_SESSION['email'] = $user->email;
+        $_SESSION['user_id'] = $user->user_id;
+        $_SESSION['username'] = $user->user_username;
         $_SESSION['logged_in'] = true;
 
         header("Location: " . BASE_URL . "/home");

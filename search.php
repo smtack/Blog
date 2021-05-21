@@ -1,7 +1,10 @@
 <?php
-require_once "public/init.php";
+require_once "src/init.php";
 
-$user = new User($newDB);
+$user = new User($db);
+
+$get_user_data = $user->getUser();
+$user_data = $get_user_data->fetch();
 
 $keywords = isset($_GET['search']) ? $_GET['search'] : '';
 

@@ -1,6 +1,6 @@
 <?php require_once 'includes/header.php'; ?>
 
-<div class="container">
+<div class="content">
   <h1>Blog</h1>
 
   <div class="form">

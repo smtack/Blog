@@ -1,5 +1,5 @@
 <?php
-require_once "public/init.php";
+require_once "src/init.php";
 
 $page_title = "Blog - Log In";
 
@@ -8,21 +8,22 @@ if($_SESSION) {
 }
 
 if(isset($_POST['login'])) {
-  $user = new User($newDB);
-
-  $user->username = $_POST['username'];
-
-  $checkUser = $user->checkUser();
-
-  if($checkUser && password_verify($_POST['password'], $user->password)) {
-    $_SESSION['name'] = $user->name;
-    $_SESSION['username'] = $user->username;
-    $_SESSION['email'] = $user->email;
-    $_SESSION['logged_in'] = true;
-
-    header("Location: " . BASE_URL . "/home");
+  if(empty($_POST['username']) || empty($_POST['password'])) {
+    $error = "Enter your Username and Password";
   } else {
-    $error = "Username or Password Incorrect";
+    $user = new User($db);
+
+    $logIn = $user->logIn();
+
+    if($logIn && password_verify($_POST['password'], $user->user_password)) {
+      $_SESSION['user_id'] = $user->user_id;
+      $_SESSION['username'] = $user->user_username;
+      $_SESSION['logged_in'] = true;
+
+      header("Location: " . BASE_URL . "/home");
+    } else {
+      $error = "Username or Password incorrect";
+    }
   }
 }
 

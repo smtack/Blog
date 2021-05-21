@@ -1,7 +1,8 @@
 <?php
-require_once "public/init.php";
+require_once "src/init.php";
 
-$user = new User($newDB);
+$user = new User($db);
+
 $user->logOut();
 
-header("Location: " . BASE_URL . "/index");
+header("Location: " . BASE_URL);

@@ -4,6 +4,7 @@ class Database {
   private $dbname = DB_NAME;
   private $dbuser = DB_USER;
   private $dbpass = DB_PASS;
+  private $dbchar = DB_CHARSET;
 
   public $db;
   public $dsn;
@@ -12,7 +13,7 @@ class Database {
   public function DB() {
     $this->db = null;
 
-    $this->dsn = "mysql:host=$this->dbhost;dbname=$this->dbname";
+    $this->dsn = 'mysql:host=' . $this->dbhost . ';dbname=' . $this->dbname . ';charset=' . $this->dbchar;
 
     $this->opt = [
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
