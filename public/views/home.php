@@ -1,42 +1,59 @@
-<?php require_once 'includes/header.php'; ?>
+<div class="submit">
+  <?php if($user->user_profile_picture): ?>
+    <img src="../uploads/profile-pictures/<?php echo $user->user_profile_picture; ?>" alt="<?php echo $user->user_profile_picture; ?>">
+  <?php endif; ?>
+  
+  <h2>Welcome <?php echo $user->user_name; ?></h2>
+  <h4><a href="/profile/<?php echo $user->user_username; ?>">@<?php echo $user->user_username; ?></a></h4>
 
-<?php require_once 'includes/navbar.php'; ?>
+  <p>
+    <?php echo $userData['post_count'] . " "; echo($userData['post_count'] != 1) ? "Posts" : "Post"; ?>
+    <span><?php echo $userData['followers'] . " "; echo($userData['followers'] != 1) ? "Followers" : "Follower"; ?></span>
+    <span><?php echo "Following " . $userData['following']; ?></span><br>
+  </p>
 
-<div class="content">
-  <div class="info">
-    <?php if($user_data['user_profile_picture']): ?>
-      <img class="profile-picture" src="<?php echo BASE_URL; ?>/uploads/profile-pictures/<?php echo $user_data['user_profile_picture']; ?>" alt="<?php echo $user_data['user_profile_picture']; ?>">
-    <?php endif; ?>
+  <h2>Create a Post</h2>
 
-    <h3>Welcome <a href="<?php echo BASE_URL; ?>/profile?id=<?php echo $user_data['user_id']; ?>"><?php echo $user_data['user_name']; ?></a></h3>
-  </div>
+  <form action="/create" method="POST">
+    <input type="submit" value="Create a Post">
+  </form>
 
-  <div class="posts">
-    <?php if(!$posts): ?>
-      <p>You haven't made a post yet. <a href="<?php echo BASE_URL; ?>/create">Create one</a></p>
-    <?php endif; ?>
+  <h2>Search Posts</h2>
 
-    <?php foreach($posts as $single_post): ?>
-      <div class="post">
-        <?php if($single_post['post_image']): ?>
-          <img class="post-image" src="<?php echo BASE_URL; ?>/uploads/<?php echo $single_post['post_image']; ?>" alt="<?php echo $single_post['post_image']; ?>">
-        <?php endif; ?>
+  <form action="/posts" method="POST">
+    <input name="query" type="text">
+    <input type="submit" value="Search">
+  </form>
 
-        <h3><a href="<?php echo BASE_URL; ?>/post?id=<?php echo $single_post['post_id']; ?>"><?php echo $single_post['post_title']; ?></a></h3>
+  <h2>Search for Profiles</h2>
 
-        <span>
-          By <?php echo $single_post['user_name']; ?> on
-          <?php echo date('l j F Y', strtotime($single_post['post_date'])); ?>
-        </span>
-
-        <p><?php echo substr($single_post['post_content'], 0, 150); ?>... <a href="<?php echo BASE_URL; ?>/post?id=<?php echo $single_post['post_id']; ?>">Read more</a></p>
-      
-        <span>
-          <a href="<?php echo BASE_URL; ?>/edit?id=<?php echo $single_post['post_id']; ?>">Edit</a>
-        </span>
-      </div>
-    <?php endforeach; ?>
-  </div>
+  <form action="/profiles" method="POST">
+    <input name="query" type="text">
+    <input type="submit" value="Search">
+  </form>
 </div>
+<div class="posts">
+  <?php if(!$followers_posts): ?>
+    <h3>You aren't following anyone yet. <a href="/profiles">Take a look at the public profiles</a></h3>
+  <?php endif; ?>
+  
+  <?php foreach($followers_posts as $post): ?>
+    <div class="post">
+      <h3><a href="/post/<?php echo($post['post_slug']); ?>"><?php echo $post['post_title']; ?></a></h3>
+      <span>
+        By <a href="/profile/<?php echo $post['user_username']; ?>"><?php echo $post['user_name']; ?></a> @<?php echo $post['user_username']; ?>
+        on <?php echo date('l j F Y', strtotime($post['post_date'])); ?>
+      </span>
 
-<?php require_once 'includes/footer.php'; ?>
+      <?php if($post['post_image']): ?>
+        <img src="../uploads/<?php echo $post['post_image']; ?>" alt="<?php echo $post['post_image']; ?>">
+      <?php endif; ?>
+
+      <p><?php echo substr($post['post_content'], 0, 150); ?></p>
+
+      <?php if($user->user_id === $post['post_by']): ?>
+        <p><a href="/edit-post/<?php echo $post['post_slug']; ?>">Edit</a></p>
+      <?php endif; ?>
+    </div>
+  <?php endforeach; ?>
+</div>

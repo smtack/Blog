@@ -1,51 +1,44 @@
-<?php require_once 'includes/header.php'; ?>
+<div class="submit">
+  <?php if($profile_info['user_profile_picture']): ?>
+    <img src="../uploads/profile-pictures/<?php echo $profile_info['user_profile_picture']; ?>" alt="<?php echo $profile_info['user_profile_picture']; ?>">
+  <?php endif; ?>
 
-<?php require_once 'includes/navbar.php'; ?>
+  <h2><?php echo $profile_info['user_name']; ?>'s Profile</h2>
+  <h4><a href="/profile/<?php echo $profile_info['user_username']; ?>"><?php echo $profile_info['user_name']; ?></a> @<?php echo $profile_info['user_username']; ?></h4>
+  <p>Joined on <?php echo date('l j F Y', strtotime($profile_info['user_joined'])); ?></p>
 
-<div class="content">
-  <div class="info">
-    <?php if($user_data['user_profile_picture']): ?>
-      <img class="profile-picture" src="<?php echo BASE_URL; ?>/uploads/profile-pictures/<?php echo $user_data['user_profile_picture']; ?>" alt="<?php echo $user_data['user_profile_picture']; ?>">
-    <?php endif; ?>
+  <p>
+    <?php echo $profile_data['post_count'] . " "; echo($profile_data['post_count'] != 1) ? "Posts" : "Post"; ?>
+    <?php echo $profile_data['followers'] . " "; echo($profile_data['followers'] != 1) ? "Followers" : "Follower"; ?>
+    <?php echo "Following " . $profile_data['following']; ?>
+  </p>
 
-    <h3><?php echo $user_data['user_name']; ?>'s Profile</h3>
-    <p>Joined on <?php echo date('l j F Y', strtotime($user_data['user_joined'])); ?></p>
-  </div>
-
-  <div class="posts">
-    <?php if(!$posts): ?>
-      <?php if($_SESSION['username'] == $user_data['user_username']): ?>
-        <p>You haven't made a post yet. <a href="<?php echo BASE_URL; ?>/create">Create one</a></p>
-      <?php else: ?>
-        <p><?php echo $user_data['user_name']; ?>&nbsp;hasn't made a post yet.</p>
-      <?php endif; ?>
-    <?php endif; ?>
-
-    <?php foreach($posts as $single_post): ?>
+  <?php if($user->user_username !== $profile_info['user_username']): ?>
+    <a class="follow" href="/<?php echo($profile_data['followed']) ? 'unfollow' : 'follow'; ?>/<?php echo $profile_info['user_id']; ?>"><?php echo($profile_data['followed']) ? "unfollow" : "follow"; ?></a>
+  <?php endif; ?>
+</div>
+<div class="posts">
+  <?php if(!$posts): ?>
+    <h3>This user hasn't made a post yet.</h3>
+  <?php else: ?>
+    <?php foreach($posts as $post): ?>
       <div class="post">
-        <?php if($single_post['post_image']): ?>
-            <img class="post-image" src="<?php echo BASE_URL; ?>/uploads/<?php echo $single_post['post_image']; ?>" alt="<?php echo $single_post['post_image']; ?>">
+        <a href="/post/<?php echo $post['post_slug']; ?>"><h3><?php echo $post['post_title']; ?></h3></a>
+        <span>
+          By <?php echo $post['user_name']; ?> @<?php echo $post['user_username']; ?>
+          on <?php echo date('l j F Y', strtotime($post['post_date'])); ?>
+        </span>
+
+        <?php if($post['post_image']): ?>
+          <img src="../uploads/<?php echo $post['post_image']; ?>" alt="<?php echo $post['post_image']; ?>">
         <?php endif; ?>
 
-        <div class="post-content">
-          <h3><a href="<?php echo BASE_URL; ?>/post?id=<?php echo $single_post['post_id']; ?>"><?php echo $single_post['post_title']; ?></a></h3>
-        
-          <span>
-            By <?php echo $single_post['user_name']; ?> on
-            <?php echo date('l j F Y', strtotime($single_post['post_date'])); ?>
-          </span>
+        <p><?php echo substr($post['post_content'], 0, 150); ?></p>
 
-          <p><?php echo substr($single_post['post_content'], 0, 150); ?>... <a href="<?php echo BASE_URL; ?>/post.php?id=<?php echo $single_post['post_id']; ?>">Read more</a></p>
-          
-          <?php if($_SESSION['username'] == $single_post['user_username']): ?>
-            <span>
-              <a href="<?php echo BASE_URL; ?>/edit?id=<?php echo $single_post['post_id']; ?>">Edit</a>
-            </span>
-          <?php endif; ?>
-        </div>
+        <?php if($user->user_id === $post['post_by']): ?>
+          <a href="/edit-post/<?php echo $post['post_slug']; ?>">Edit</a>
+        <?php endif; ?>
       </div>
     <?php endforeach; ?>
-  </div>
+  <?php endif; ?>
 </div>
-
-<?php require_once 'includes/footer.php'; ?>

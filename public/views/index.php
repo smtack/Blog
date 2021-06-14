@@ -1,38 +1,25 @@
-<?php require_once 'includes/header.php'; ?>
+<div class="index-forms">
+  <h2>Welcome to Blog. Log in or make an account.</h2>
 
-<div class="content">
-  <h1>Blog</h1>
-
-  <div class="form">
-    <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-      <div class="form-group">
-        <?php if(isset($error)): ?>
-          <p><?php echo $error; ?></p>
-        <?php endif; ?>
-      </div>
-      <div class="form-group">
-        <input type="text" name="name" placeholder="Name">
-      </div>
-      <div class="form-group">
-        <input type="text" name="username" placeholder="Username">
-      </div>
-      <div class="form-group">
-        <input type="text" name="email" placeholder="Email">
-      </div>
-      <div class="form-group">
-        <input type="password" name="password" placeholder="Password">
-      </div>
-      <div class="form-group">
-        <input type="password" name="confirm_password" placeholder="Confirm Password">
-      </div>
-      <div class="form-group">
-        <input type="submit" name="signup" value="Sign Up">
-      </div>
-      <div class="form-group">
-        <p>Already have an account? <a href="<?php echo BASE_URL; ?>/login">Log In</a></p>
-      </div>
+  <div class="buttons">
+    <button class="signup-button">Sign Up</button>
+    <button class="login-button">Log In</button>
+  </div>
+  <div class="signup-form">
+    <form action="/signup" method="POST">
+      <input name="name" type="text" placeholder="Name">
+      <input name="username" type="text" placeholder="Username">
+      <input name="email" type="text" placeholder="Email">
+      <input name="password" type="password" placeholder="Password">
+      <input name="confirm_password" type="password" placeholder="Confirm Password">
+      <input type="submit" value="Sign Up">
+    </form>
+  </div>
+  <div class="login-form">
+    <form action="/login" method="POST">
+      <input name="username" type="text" placeholder="Username">
+      <input name="password" type="password" placeholder="Password">
+      <input type="submit" value="Log In">
     </form>
   </div>
 </div>
-
-<?php require_once 'includes/footer.php'; ?>
